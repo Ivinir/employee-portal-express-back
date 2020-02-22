@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import UserRouter from './users';
+import AccessControlRouter from './access-control/access-control.routes';
 
 // Init router and path
 const router = Router();
 
 // Add sub-routes
-router.use('/users', UserRouter);
+router.use('/access-control', AccessControlRouter);
 
 // Export the base-router
 export default router;
