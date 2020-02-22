@@ -2,9 +2,9 @@ import supertest from 'supertest';
 import { BAD_REQUEST, CREATED, OK } from 'http-status-codes';
 import { Response, SuperTest, Test } from 'supertest';
 
-import app from '@server';
-import UserDao from '@daos/User/UserDao.mock';
-import User, { IUser } from '@entities/User';
+import app from 'src/server';
+import UserDao from '@daos/User/user-dao.mocks';
+import User, { IUser } from 'src/models/user.model';
 import { pErr } from '@shared/functions';
 import { paramMissingError } from '@shared/constants';
 
