@@ -17,7 +17,7 @@
         "src/daos/*"
       ],
       "@entities/*": [
-        "src/models/*"
+        "src/entities/*"
       ],
       "@shared/*": [
         "src/shared/*"
