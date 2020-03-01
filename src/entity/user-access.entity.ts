@@ -1,20 +1,14 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+// tslint:disable: variable-name
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('user_access')
 export class UserAccessEntity {
-  @PrimaryColumn()
-  public id: string;
+  @PrimaryGeneratedColumn('uuid')
+  public user_id!: string;
   @Column({ length: 100 })
-  public email: string;
+  public user_email!: string;
   @Column({ length: 20 })
-  public password: string;
+  public user_password!: string;
   @Column({ length: 30 })
-  public role: string;
-
-  constructor(user: any) {
-    this.id = user.id;
-    this.email = user.email;
-    this.password = user.password;
-    this.role = user.role;
-  }
+  public user_role!: string;
 }
