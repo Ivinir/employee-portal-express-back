@@ -1,8 +1,7 @@
 import { UserAccessEntity } from 'src/entity/user-access.entity';
 import { getRepository } from 'typeorm';
-import { Request, Response } from 'express';
+import { Request, Response, response } from 'express';
 import { CrudController } from '../crud-controller';
-import { accessControlServices } from '../../services/index';
 
 
 export class AccessControlController extends CrudController {
@@ -19,7 +18,7 @@ export class AccessControlController extends CrudController {
       ]
     }).then((response) => {
       res.send(response);
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log('Error fetching data : -> ', error);
       throw new Error();
     });
@@ -37,6 +36,22 @@ export class AccessControlController extends CrudController {
 
   public delete = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     throw new Error('Method not implemented.');
+  }
+
+  public login = (req: Request, res: Response): void => {
+    const userEmail: string = req.body.email;
+    const userPassword: string = req.body.password;
+    getRepository(UserAccessEntity)
+      .findOne({
+        where: [
+          { user_email: userEmail, user_password: userPassword }
+        ]
+      }).then((response) => {
+        res.send(response);
+      }).catch((error) => {
+        console.log('Error fetching data : -> ', error);
+        throw new Error();
+      });
   }
 
 

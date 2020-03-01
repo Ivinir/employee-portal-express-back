@@ -6,13 +6,26 @@ import BaseRouter from './routes';
 
 // Init express
 const app = express();
+const cors = require('cors');
 
+// TODO : Fix cors import. do it the typescript way
+const options:any = {
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: process.env.LOCAL_CLIENT,
+  preflightContinue: false
+};
+app.use(cors());
+app.options('*', cors(options));
 // Add middleware/settings/routes to express.
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/api', BaseRouter);
+
+
 
 /**
  * Point express to the 'views' directory. If you're using a

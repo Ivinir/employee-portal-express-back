@@ -11,6 +11,10 @@ router.post('/add', async (req: Request, res: Response) => {
   accessControlController.create(req, res);
 });
 
+router.post('/login', async (req: Request, res: Response) => {
+  accessControlController.login(req, res);
+});
+
 router.put('/update', async (req: Request, res: Response) => {
   accessControlController.update(req, res);
 });
@@ -18,5 +22,6 @@ router.put('/update', async (req: Request, res: Response) => {
 router.delete('/delete/:id', async (req: Request, res: Response) => {
   accessControlController.delete(req, res);
 });
+
 
 export default router;
