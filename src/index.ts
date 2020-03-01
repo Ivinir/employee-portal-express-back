@@ -1,5 +1,5 @@
+import './load-env';
 import { Database } from './db/database';
-import './load-env'; // Must be the first import
 import app from 'src/server';
 import logger from 'src/utils/Logger';
 
