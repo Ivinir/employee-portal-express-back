@@ -15,6 +15,10 @@ router.post('/login', async (req: Request, res: Response) => {
   accessControlController.login(req, res);
 });
 
+router.post('/register', async (req: Request, res: Response) => {
+  accessControlController.register(req, res);
+});
+
 router.put('/update', async (req: Request, res: Response) => {
   accessControlController.update(req, res);
 });
