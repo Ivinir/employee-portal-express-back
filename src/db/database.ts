@@ -14,7 +14,7 @@ export class Database {
       console.log('Connection to database started', connection.isConnected);
     }).catch((error) => {
       console.error('Error connectiong to database');
-      console.log(error);
+      console.error(error);
     });
   }
 
