@@ -5,14 +5,13 @@ import { CrudController } from '../crud-controller';
 import { config } from '../../config/config'
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-
+import { UserLoginModel } from 'src/models/access-control/user-login.model';
 
 export class AccessControlController extends CrudController {
 
   public create = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     throw new Error('Method not implemented.');
   }
-
   public readById = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     const id: string = req.params.user_id;
     getRepository(UserAccessEntity).find({
@@ -25,17 +24,14 @@ export class AccessControlController extends CrudController {
       throw new Error();
     });
   }
-
   public readAll = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     getRepository(UserAccessEntity).find().then((response) => {
       res.send(response);
     });
   }
-
   public update = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     throw new Error('Method not implemented.');
   }
-
   public delete = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     throw new Error('Method not implemented.');
   }
@@ -57,7 +53,6 @@ export class AccessControlController extends CrudController {
           userPassword,
           user.user_password
         );
-
         if (!passwordIsValid) {
           return res.status(401).send({
             accessToken: null,
@@ -71,7 +66,14 @@ export class AccessControlController extends CrudController {
         });
         user.access_token = token;
 
-        res.status(200).send(user);
+        const userModel: UserLoginModel = {
+          id: user.user_id,
+          email: user.user_email,
+          role: user.user_role,
+          accessToken: token
+        };
+
+        res.status(200).send(userModel);
       })
       .catch((err) => {
         res.status(500).send({ message: err });

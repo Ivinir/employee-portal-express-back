@@ -1,9 +1,10 @@
+import { authMiddleware } from './../../middlewares';
 import { Request, Response, Router } from 'express';
 import { accessControlController } from '../../controllers';
 
 const router = Router();
 
-router.get('/get', accessControlController.readAll);
+router.get('/get',authMiddleware.verifyToken, accessControlController.readAll);
 
 router.get('/get/:user_id', accessControlController.readById);
 
