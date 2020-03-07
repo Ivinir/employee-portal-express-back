@@ -11,11 +11,11 @@ export class UserAccessEntity {
   })
   public user_email!: string;
   @Column({
-    length: 20
+    length: 100
   })
   public user_password!: string;
   @Column({
-    length: 30,
+    length: 100,
     default: 'employee'
   })
   public user_role!: string;

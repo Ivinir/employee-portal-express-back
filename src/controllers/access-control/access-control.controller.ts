@@ -2,10 +2,12 @@ import { UserAccessEntity } from 'src/entity/user-access.entity';
 import { getRepository } from 'typeorm';
 import { Request, Response, response } from 'express';
 import { CrudController } from '../crud-controller';
+import { config } from '../../config/config'
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 
 export class AccessControlController extends CrudController {
-  
 
   public create = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     throw new Error('Method not implemented.');
@@ -20,7 +22,6 @@ export class AccessControlController extends CrudController {
     }).then((response) => {
       res.send(response);
     }).catch((error) => {
-      console.log('Error fetching data : -> ', error);
       throw new Error();
     });
   }
@@ -45,28 +46,50 @@ export class AccessControlController extends CrudController {
     getRepository(UserAccessEntity)
       .findOne({
         where: [
-          { user_email: userEmail, user_password: userPassword }
+          { user_email: userEmail }
         ]
       })
-      .then((response) => {
-        res.send(response);
+      .then((user: any) => {
+        if (!user) {
+          return res.status(404).send({ message: 'User Not found.' });
+        }
+        const passwordIsValid = bcrypt.compareSync(
+          userPassword,
+          user.user_password
+        );
+
+        if (!passwordIsValid) {
+          return res.status(401).send({
+            accessToken: null,
+            message: 'Invalid Password!'
+          });
+        }
+
+        // TODO -> Add JWT token
+        const token = jwt.sign({ id: user.user_id }, config.auth.jwt, {
+          expiresIn: 86400 // 24 hours
+        });
+        user.access_token = token;
+
+        res.status(200).send(user);
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(500).send({ message: err });
       });
   }
 
   public register(req: Request, res: Response): Promise<any> {
     const userEmail: string = req.body.email;
-    const userPassword: string = req.body.password;
+    const userPassword: string = bcrypt.hashSync(req.body.password, 8);
     return getRepository(UserAccessEntity)
       .insert([{ user_email: userEmail, user_password: userPassword }])
       .then((user: any) => {
-        res.send({response:`New user with ID [ ${ user.identifiers[0].user_id } ] has been inserted`});
+        res.send({ response: `New user with ID [ ${ user.identifiers[0].user_id } ] has been inserted` });
       })
       .catch((err: any) => {
         res.status(400).send(err);
       });
   }
+
 
 }
