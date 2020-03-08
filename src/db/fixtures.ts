@@ -9,8 +9,7 @@ export class Fixtures {
   constructor() {
   }
 
-  public loadFixturesPath(fPath: string): void {
-    const loadFixtures = async (fixturesPath: any) => {
+  public async loadFixturesPath(fPath: string): Promise<any> {
       let connection;
 
       try {
@@ -18,7 +17,7 @@ export class Fixtures {
         await connection.synchronize(true);
 
         const loader = new Loader();
-        loader.load(path.resolve(fixturesPath));
+        loader.load(path.resolve(fPath));
 
         const resolver = new Resolver();
         const fixtures = resolver.resolve(loader.fixtureConfigs);
@@ -29,18 +28,7 @@ export class Fixtures {
           await getRepository(entity.constructor.name).save(entity);
         }
       } catch (err) {
-        throw err;
-      } finally {
-        if (connection) {
-          await connection.close();
-        }
+        throw new Error(err);
       }
-    };
-
-    loadFixtures('./src/fixtures')
-      .then(() => {
-        console.log('Fixtures are successfully loaded.');
-      })
-      .catch((err)=>{console.log(err)})
-  }
+    }
 }
