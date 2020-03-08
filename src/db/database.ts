@@ -10,7 +10,7 @@ export class Database {
   constructor() {
   }
 
-  public static connectToDb(): void {
+  public connectToDb(): void {
     console.log('Starting database connection');
     createConnection().then((connection) => {
       console.log('Connection to database started', connection.isConnected);
@@ -20,20 +20,20 @@ export class Database {
     });
   }
 
-  public static closeDbConnection(): void {
+  public closeDbConnection(): void {
     console.log('Closing connection');
     getConnection().close();
   }
 
-  public static async getUserAccessRespository(): Promise<any> {
+  public async getUserAccessRespository(): Promise<any> {
     return getRepository(UserAccessEntity);
   }
 
-  public static async getRolesRepository(): Promise<any> {
+  public async getRolesRepository(): Promise<any> {
     return getRepository(UserRoleEntity);
   }
 
-  public static async getUserToRoleRepository(): Promise<any> {
+  public async getUserToRoleRepository(): Promise<any> {
     return getRepository(UserToRoleEntity);
   }
 
