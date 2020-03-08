@@ -1,5 +1,5 @@
+import { database } from 'src/db/index';
 import './load-env';
-import { Database } from './db/database';
 import app from 'src/server';
 import logger from 'src/utils/Logger';
 
@@ -9,4 +9,4 @@ app.listen(port, () => {
     logger.info(`Express server started on port: ${ port }`);
 });
 
-Database.connectToDb();
+database.connectToDb();

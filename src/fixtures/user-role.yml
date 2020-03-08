@@ -1,0 +1,8 @@
+entity: UserRoleEntity
+items:
+  role{1}:
+    user_role_id: '1'
+    user_role_name: 'employee'
+  role{2}:
+    user_role_id: '2'
+    user_role_name: 'admin'
