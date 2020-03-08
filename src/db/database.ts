@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 import { createConnection, getConnection, getRepository } from 'typeorm';
 import { UserAccessEntity } from 'src/entity/user-access.entity';
-import { UserRoleEntity } from 'src/entity/user-roles.entity';
+import { UserRoleEntity } from 'src/entity/user-role.entity';
 import { UserToRoleEntity } from 'src/entity/user-to-role.entity';
+import { fixtures } from './index';
 
 
 export class Database {
@@ -14,6 +15,7 @@ export class Database {
     console.log('Starting database connection');
     createConnection().then((connection) => {
       console.log('Connection to database started', connection.isConnected);
+      this.loadFixtures();
     }).catch((error) => {
       console.error('Error connectiong to database');
       console.error(error);
@@ -35,6 +37,11 @@ export class Database {
 
   public async getUserToRoleRepository(): Promise<any> {
     return getRepository(UserToRoleEntity);
+  }
+
+
+  private loadFixtures(): any {
+    fixtures.loadFixturesPath('src/fixtures');
   }
 
 }
