@@ -4,7 +4,15 @@ import { accessControlController } from '../../controllers';
 
 const router = Router();
 
-router.get('/get',authMiddleware.verifyToken, accessControlController.readAll);
+router.use((req, res, next) => {
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Authorization, Origin, Content-Type, Accept'
+  );
+  next();
+});
+
+router.get('/get', authMiddleware.verifyToken, accessControlController.readAll);
 
 router.get('/get/:user_id', accessControlController.readById);
 

@@ -60,10 +60,10 @@ export class AccessControlController extends CrudController {
           });
         }
 
-        // TODO -> Add JWT token
-        const token = jwt.sign({ id: user.user_id }, config.auth.jwt, {
-          expiresIn: 86400 // 24 hours
-        });
+        const token = jwt.sign({id: user.user_id,},config.auth.jwt,
+          {
+            expiresIn: 86400 // 24 hours expiration
+          });
         user.access_token = token;
 
         const userModel: UserLoginModel = {
