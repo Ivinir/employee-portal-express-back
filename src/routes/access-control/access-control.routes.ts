@@ -4,7 +4,7 @@ import { accessControlController } from '../../controllers';
 
 const router = Router();
 
-router.use((req, res, next) => {
+router.use((req: Request, res: Response, next: any) => {
   res.header(
     'Access-Control-Allow-Headers',
     'Authorization, Origin, Content-Type, Accept'
