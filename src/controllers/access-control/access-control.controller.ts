@@ -60,7 +60,7 @@ export class AccessControlController extends CrudController {
           });
         }
 
-        const token = jwt.sign({id: user.user_id,},config.auth.jwt,
+        const token = jwt.sign({ id: user.user_id, }, config.auth.jwt,
           {
             expiresIn: 86400 // 24 hours expiration
           });

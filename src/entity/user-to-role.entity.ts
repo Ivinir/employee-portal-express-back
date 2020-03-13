@@ -9,11 +9,15 @@ export class UserToRoleEntity {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @ManyToOne(type => UserRoleEntity, userRoleEntity => userRoleEntity.user_role_id)
+  @ManyToOne(
+    (type) => UserRoleEntity, 
+    (userRoleEntity) => userRoleEntity.user_role_id)
   @JoinColumn({ name: 'role_id' })
   public role_id!: string;
 
-  @ManyToOne(type => UserAccessEntity, userAccesEntity => userAccesEntity.user_id, { onDelete: 'CASCADE' })
+  @ManyToOne(
+    (type) => UserAccessEntity, 
+    (userAccesEntity) => userAccesEntity.user_id, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   public user_id!: string;
 
