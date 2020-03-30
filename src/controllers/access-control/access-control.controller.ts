@@ -6,6 +6,8 @@ import { config } from '../../config/config'
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { UserLoginModel } from 'src/models/access-control/user-login.model';
+import { UserToRoleEntity } from 'src/entity/user-to-role.entity';
+import { UserInfoEntity } from 'src/entity/user-info.entity';
 
 export class AccessControlController extends CrudController {
 
@@ -86,12 +88,33 @@ export class AccessControlController extends CrudController {
     return getRepository(UserAccessEntity)
       .insert([{ user_email: userEmail, user_password: userPassword }])
       .then((user: any) => {
-        res.send({ response: `New user with ID [ ${ user.identifiers[0].user_id } ] has been inserted` });
+        const generatedUUID: string = user.identifiers[0].user_id;
+        this.initWithDefaultRoles(generatedUUID);
+        this.initWithDefaultUserInfo(generatedUUID);
+        res.send({ response: `New user with ID [ ${ generatedUUID } ] has been inserted` });
       })
       .catch((err: any) => {
         res.status(400).send(err);
       });
   }
+
+  private initWithDefaultRoles(userId: string) {
+    return getRepository(UserToRoleEntity)
+      .insert([{ user_id: userId, role_id: 1 }])
+      .then(() => {
+        console.log('Role insertion successfull.')
+      })
+  }
+
+  private initWithDefaultUserInfo(userId: string) {
+    return getRepository(UserInfoEntity)
+      .insert([{ user_id: userId }])
+      .then(() => {
+        console.log('User info insertion successfull.')
+      })
+  }
+
+
 
 
 }
