@@ -1,7 +1,10 @@
-import { AccessControlServices } from './access-control/access-control.services';
+import { RegisterService } from './access-control/register.service';
+import { LoginService } from './access-control/login.service';
 
-const accessControlServices = new AccessControlServices();
+const loginService = new LoginService();
+const registerService = new RegisterService();
 
 export {
-  accessControlServices
+  loginService,
+  registerService
 };

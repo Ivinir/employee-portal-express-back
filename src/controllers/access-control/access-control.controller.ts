@@ -8,12 +8,15 @@ import * as jwt from 'jsonwebtoken';
 import { UserLoginModel } from 'src/models/access-control/user-login.model';
 import { UserToRoleEntity } from 'src/entity/user-to-role.entity';
 import { UserInfoEntity } from 'src/entity/user-info.entity';
+import { registerService } from 'src/services';
 
 export class AccessControlController extends CrudController {
+
 
   public create = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     throw new Error('Method not implemented.');
   }
+
   public readById = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     const id: string = req.params.user_id;
     getRepository(UserAccessEntity).find({
@@ -26,14 +29,17 @@ export class AccessControlController extends CrudController {
       throw new Error();
     });
   }
+
   public readAll = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     getRepository(UserAccessEntity).find().then((response) => {
       res.send(response);
     });
   }
+
   public update = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     throw new Error('Method not implemented.');
   }
+
   public delete = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
     throw new Error('Method not implemented.');
   }
@@ -85,34 +91,18 @@ export class AccessControlController extends CrudController {
   public register(req: Request, res: Response): Promise<any> {
     const userEmail: string = req.body.email;
     const userPassword: string = bcrypt.hashSync(req.body.password, 8);
-    return getRepository(UserAccessEntity)
-      .insert([{ user_email: userEmail, user_password: userPassword }])
-      .then((user: any) => {
-        const generatedUUID: string = user.identifiers[0].user_id;
-        this.initWithDefaultRoles(generatedUUID);
-        this.initWithDefaultUserInfo(generatedUUID);
-        res.send({ response: `New user with ID [ ${ generatedUUID } ] has been inserted` });
+    return registerService.register(userEmail, userPassword)
+      .then(() => {
+        res.send({ response: `New user has been inserted` });
       })
       .catch((err: any) => {
         res.status(400).send(err);
       });
+
+
   }
 
-  private initWithDefaultRoles(userId: string) {
-    return getRepository(UserToRoleEntity)
-      .insert([{ user_id: userId, role_id: 1 }])
-      .then(() => {
-        console.log('Role insertion successfull.')
-      })
-  }
-
-  private initWithDefaultUserInfo(userId: string) {
-    return getRepository(UserInfoEntity)
-      .insert([{ user_id: userId }])
-      .then(() => {
-        console.log('User info insertion successfull.')
-      })
-  }
+ 
 
 
 
