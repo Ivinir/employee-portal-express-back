@@ -1,3 +1,4 @@
+import { ErrorHandler } from 'src/models/shared/error-handler.model';
 import { UserAccessEntity } from 'src/entity/user-access.entity';
 import { getRepository } from 'typeorm';
 import { UserToRoleEntity } from 'src/entity/user-to-role.entity';
@@ -15,7 +16,7 @@ export class RegisterService {
         this.initWithDefaultUserInfo(generatedUUID);
       })
       .catch((err: any) => {
-        throw err;
+        throw new ErrorHandler(400, 'ERR-AC003', 'Could not register user');
       });
   }
 

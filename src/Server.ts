@@ -3,13 +3,14 @@ import express from 'express';
 import logger from 'morgan';
 import 'reflect-metadata';
 import BaseRouter from './routes';
+import { responseMiddleware } from './middlewares'
 
 // Init express
 const app = express();
 const cors = require('cors');
 
 // TODO : Fix cors import. do it the typescript way
-const options:any = {
+const options: any = {
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
   credentials: true,
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
@@ -23,7 +24,10 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 app.use('/api', BaseRouter);
+
+
 
 
 
