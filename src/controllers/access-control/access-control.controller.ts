@@ -1,4 +1,4 @@
-import { Request, Response, response } from 'express';
+import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { registerService, loginService } from 'src/services';
 
@@ -26,13 +26,6 @@ export class AccessControlController {
       .catch((err: any) => {
         return (err);
       });
-
-
   }
-
-
-
-
-
 
 }

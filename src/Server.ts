@@ -3,7 +3,6 @@ import express from 'express';
 import logger from 'morgan';
 import 'reflect-metadata';
 import BaseRouter from './routes';
-import { responseMiddleware } from './middlewares'
 
 // Init express
 const app = express();
@@ -17,6 +16,8 @@ const options: any = {
   origin: process.env.LOCAL_CLIENT,
   preflightContinue: false
 };
+
+
 app.use(cors());
 app.options('*', cors(options));
 // Add middleware/settings/routes to express.

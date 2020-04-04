@@ -9,7 +9,6 @@ import { UserLoginModel } from 'src/models/access-control/user-login.model';
 
 export class LoginService {
 
-
   public login(userEmail: string, userPassword: string) {
     return getRepository(UserAccessEntity)
       .findOne({
