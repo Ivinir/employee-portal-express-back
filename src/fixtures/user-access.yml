@@ -6,7 +6,7 @@ items:
     user_password: '$2b$08$dWQprTIXqYtEox/xPseIG.nZuD6kpf4E6B1CF7qwjpGfPs91wialC'
   user{2}:
     user_id: '351a79d6-5938-435f-939c-cc81edc0ef47'
-    user_email: '{{internet.email}}'
+    user_email: 'test2@test.com'
     user_password: '$2b$08$dWQprTIXqYtEox/xPseIG.nZuD6kpf4E6B1CF7qwjpGfPs91wialC'
   user{3}:
     user_id: '90734d82-7838-476d-ad55-da1143641de5'

@@ -1,5 +1,5 @@
 import { UserAccessEntity } from 'src/entity/user-access.entity';
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToOne, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, JoinColumn, OneToOne, Column } from 'typeorm';
 
 @Entity('user_info')
 export class UserInfoEntity {

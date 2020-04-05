@@ -1,5 +1,5 @@
 import { authMiddleware } from './../../middlewares';
-import { Request, Response, Router } from 'express';
+import { Request, Response, Router, response } from 'express';
 import { accessControlController } from '../../controllers';
 
 const router = Router();
@@ -12,29 +12,18 @@ router.use((req: Request, res: Response, next: any) => {
   next();
 });
 
-router.get('/get', authMiddleware.verifyToken, accessControlController.readAll);
-
-router.get('/get/:user_id', accessControlController.readById);
-
-router.post('/add', async (req: Request, res: Response) => {
-  accessControlController.create(req, res);
-});
-
 router.post('/login', async (req: Request, res: Response) => {
-  accessControlController.login(req, res);
+  accessControlController.login(req, res)
+    .then((response: Response) => {
+      res.status(response.statusCode || 200).send(response);
+    });
 });
 
 router.post('/register', async (req: Request, res: Response) => {
-  accessControlController.register(req, res);
+  accessControlController.register(req, res)
+    .then((response: Response) => {
+      res.status(response.statusCode || 200).send(response);
+    });
 });
-
-router.put('/update', async (req: Request, res: Response) => {
-  accessControlController.update(req, res);
-});
-
-router.delete('/delete/:id', async (req: Request, res: Response) => {
-  accessControlController.delete(req, res);
-});
-
 
 export default router;
