@@ -1,18 +1,29 @@
-import { Request, Response, Router } from 'express';
+import { authMiddleware } from './../../middlewares';
+import { Request, Response, Router, response } from 'express';
 import { accessControlController } from '../../controllers';
 
 const router = Router();
 
-router.get('/get', accessControlController.readAll);
-router.get('/get/:id', accessControlController.readById);
-router.post('/add', async (req: Request, res: Response) => {
-  accessControlController.create(req, res);
+router.use((req: Request, res: Response, next: any) => {
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Authorization, Origin, Content-Type, Accept'
+  );
+  next();
 });
-router.put('/update', async (req: Request, res: Response) => {
-  accessControlController.update(req, res);
+
+router.post('/login', async (req: Request, res: Response) => {
+  accessControlController.login(req, res)
+    .then((response: Response) => {
+      res.status(response.statusCode || 200).send(response);
+    });
 });
-router.delete('/delete/:id', async (req: Request, res: Response) => {
-  accessControlController.delete(req, res);
+
+router.post('/register', async (req: Request, res: Response) => {
+  accessControlController.register(req, res)
+    .then((response: Response) => {
+      res.status(response.statusCode || 200).send(response);
+    });
 });
 
 export default router;

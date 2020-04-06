@@ -1,25 +1,31 @@
 import { Request, Response } from 'express';
-import { CrudController } from '../crud-controller';
-import { accessControlServices } from '../../services/index';
+import * as bcrypt from 'bcrypt';
+import { registerService, loginService } from 'src/services';
 
-export class AccessControlController extends CrudController {
+export class AccessControlController {
 
-  public create = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
-    throw new Error('Method not implemented.');
-  }
-  public readById = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
-    accessControlServices.login();
-    res.json({ message: `GET /access-control request received to show object ${ req.params.id }` });
-  }
-  public readAll = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
-    res.json({ message: 'GET /acces-control request received' });
-  }
-  public update = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
-    throw new Error('Method not implemented.');
-  }
-  public delete = (req: Request<import('express-serve-static-core').ParamsDictionary>, res: Response): void => {
-    throw new Error('Method not implemented.');
+  public login = (req: Request, res: Response): Promise<any> => {
+    const userEmail: string = req.body.email;
+    const userPassword: string = req.body.password;
+    return loginService.login(userEmail, userPassword)
+      .then((response: any) => {
+        return (response)
+      })
+      .catch((err: any) => {
+        return (err);
+      })
   }
 
+  public register(req: Request, res: Response): Promise<any> {
+    const userEmail: string = req.body.email;
+    const userPassword: string = bcrypt.hashSync(req.body.password, 8);
+    return registerService.register(userEmail, userPassword)
+      .then(() => {
+        return ({ response: `New user has been inserted` });
+      })
+      .catch((err: any) => {
+        return (err);
+      });
+  }
 
 }
